@@ -7,7 +7,7 @@ docker container run -d -p 8000:8000 jawieruk/infratask:1.0
 ```
 
 ## Configuration Management
-I prepared an EC2 instance at AWS
+I prepared an EC2 instance at AWS via web console with these parameters:
 
 **OS:** Ubuntu 22.04
 
