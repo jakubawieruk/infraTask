@@ -1,0 +1,46 @@
+---
+  tasks:
+    - name: get home directories
+      shell: /bin/ls -d /home/*
+      register: home_dirs
+
+    - name: copy script to every home directory
+      ansible.builtin.copy:
+      src: "{{item}}./nice-script.sh"
+      loop: "{{ home_dirs.stdout_lines }}"
+
+    - name: create user
+      ansible.builtin.user:
+        name: john
+        home: /better-place/john
+        uid: 1234
+
+    - name: let john run whoami
+      community.general.sudoers:
+        name: whoami
+        user: john
+        nopassword: true
+        commands: whoami    
+
+    - name: install Tmux and Vim
+      ansible.builtin.apt:
+        update_cache: true
+        name: 
+          - tmux
+          - vim
+
+    - name: get hashicorp gpg
+      ansible.builtin.shell:
+        cmd: wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+    
+    - name: add hashicorp to apt
+      ansible.builtin.shell:
+        cmd: echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+    
+    - name: apt update
+      ansible.builtin.apt:
+        update_cache: true
+    
+    - name: install terraform cli
+      ansible.builtin.apt:
+        name: terraform
