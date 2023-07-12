@@ -11,17 +11,27 @@ I prepared an EC2 instance at AWS via web console with these parameters:
 
 **OS:** Ubuntu 22.04
 
-**AMI:** ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-20230516
+**AMI:** Ubuntu Server 22.04 LTS (HVM), SSD Volume Type
+
+**AMI ID:** ami-01dd271720c1ba44f
+
+**Architecture:** 64-bit (x86)
 
 **instance type:** t2.micro
 
-**storage:** 1 volume - 8GB
+**storage:** 1 volume - 8GB - gp2 - General Purpose SSD
 
 
-I've generated key pair to connect via "Remote - SSH"  extension in VSC.
 
 To run playbook:
+
+Go to Configuration Management directory
 ```
-ansible-playbook -i example.host.net, -u user -k infratask.yml
+cd Configuration\ Management/
+```
+
+Run playbook on desired host
+```
+ansible-playbook -i hosts, -k infratask.yml
 
 ```

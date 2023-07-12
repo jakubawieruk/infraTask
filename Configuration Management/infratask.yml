@@ -1,13 +1,11 @@
 ---
+- hosts: hosts
+  become: yes
   tasks:
-    - name: get home directories
-      shell: /bin/ls -d /home/*
-      register: home_dirs
-
     - name: copy script to every home directory
       ansible.builtin.copy:
-      src: "{{item}}./nice-script.sh"
-      loop: "{{ home_dirs.stdout_lines }}"
+        src: ./nice-script.sh
+        dest: /etc/skel
 
     - name: create user
       ansible.builtin.user:
@@ -17,10 +15,11 @@
 
     - name: let john run whoami
       community.general.sudoers:
-        name: whoami
+        name: whoamiRule
         user: john
+        commands:
+          - /usr/bin/whoami   
         nopassword: true
-        commands: whoami    
 
     - name: install Tmux and Vim
       ansible.builtin.apt:
