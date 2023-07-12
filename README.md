@@ -23,15 +23,14 @@ I prepared an EC2 instance at AWS via web console with these parameters:
 
 
 
-To run playbook:
+### To run playbook:
 
-Go to Configuration Management directory
-```
-cd Configuration\ Management/
-```
+in hosts.ini add your host
 
-Run playbook on desired host
+in ansible.cfg change path to your private key file
+
+Run command
 ```
-ansible-playbook -i hosts, -k infratask.yml
+ansible-playbook -i hosts.ini infratask.yml
 
 ```
